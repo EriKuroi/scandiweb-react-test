@@ -58,6 +58,7 @@ module.exports = {
       title: 'React-test-scandiweb',
       filename: 'index.html',
       template: './src/index.html',
+      favicon: './src/assets/favicon.ico',
     }),
   ],
 };
