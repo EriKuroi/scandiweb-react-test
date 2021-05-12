@@ -7,9 +7,12 @@ Point.propTypes = {
   active: PropTypes.bool,
 };
 
-function Point({handleClick, active}) {
+function Point({handleClick, active, index}) {
+  const handlePointClick = () =>{
+    handleClick(index)
+  }
   return (
-    <button className={active ? "carousel__point carousel__point--active" : "carousel__point"} onClick={handleClick}/>
+    <button className={active ? "carousel__point carousel__point--active" : "carousel__point"} onClick={handlePointClick}/>
   )
 }
 
