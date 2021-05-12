@@ -24,26 +24,13 @@
     position: absolute;
   }
 
-  .wrapper {
-    transition: transform 400ms ease;
-
-    // &:hover{
-    //   transform: translateX(-30px)
-    // }
-    animation-name: example;
-    animation-duration: 4s;
-    animation-delay: 2s;
-  }
-  .all-points{
+   .all-points {
     height: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
 
   }
-  .pegs {
-    padding-left: 2px;
-    margin-bottom: 5px;
-  }
+
 
 }

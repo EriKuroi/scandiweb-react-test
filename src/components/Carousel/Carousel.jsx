@@ -31,6 +31,20 @@ const Carousel = ({framesArray, framesOnSlide}) => {
         }}
       >
         <div className="slider">
+          <div
+            className={"slide slide--virtual slide--virtual-left"}
+            style={{
+              transform: `translate3d(${(-1 - active) * 100}%, 0px, 0px)`,
+              transition: isAnimationActive ? "all 450ms ease-out 0s" : null
+            }}
+          >
+            {slides[slides.length - 1].map((card, ci) =>
+              <Frame
+                key={ci}
+                data={card}
+              />
+            )}
+          </div>
           {
             slides.map((frames, si) =>
               <div
@@ -53,13 +67,27 @@ const Carousel = ({framesArray, framesOnSlide}) => {
               </div>)
           }
         </div>
+        <div
+          className={"slide slide--virtual slide--virtual-right"}
+          style={{
+            transform: `translate3d(${(slides.length - active) * 100}%, 0px, 0px)`,
+            transition: isAnimationActive ? "all 450ms ease-out 0s" : null
+          }}
+        >
+          {slides[0].map((card, ci) =>
+            <Frame
+              key={ci}
+              data={card}
+            />
+          )}
+        </div>
         <section className="all-points">
           {
-            framesArray.map( frame => <Point />)
+            slides.map((frame, index) => <Point key={index}/>)
           }
         </section>
         <ArrowButton direction={'left'}/>
-        <ArrowButton direction={'right'} />
+        <ArrowButton direction={'right'}/>
       </article>
     )
   );
@@ -68,7 +96,6 @@ const Carousel = ({framesArray, framesOnSlide}) => {
 Carousel.propTypes =
   {
     framesArray: PropTypes.arrayOf(PropTypes.element).isRequired,
-    framesOnSlide: PropTypes.number.isRequired,
-}
-;
+    framesOnSlide:PropTypes.number.isRequired,
+};
 export default Carousel;

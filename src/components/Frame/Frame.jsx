@@ -3,11 +3,9 @@ import './frame.scss';
 import PropTypes from 'prop-types';
 
 const Frame = ({ frameHtml }) => {
-  console.log('drogglejug');
   return (
     <div
       className="frame"
-      onDrag={handleDragging}
     >
       <div className="frame__inner">
         {frameHtml}
