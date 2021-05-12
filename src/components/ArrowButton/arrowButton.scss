@@ -1,0 +1,26 @@
+.arrow-button__wrapper{
+  width: 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  background-color: transparent;
+  border: none;
+  color: white;
+  &:hover{
+    background-color: #808080;
+    cursor: pointer;
+  }
+  .arrow-button{
+    background-color: transparent;
+
+  }
+}
+
+.arrow-button__wrapper--left{
+  left: 0;
+}
+.arrow-button__wrapper--right{
+  right: 0;
+}
