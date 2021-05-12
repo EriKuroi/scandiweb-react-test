@@ -1,4 +1,4 @@
-.carousel__point{
+.carousel__point {
   width: 10px;
   height: 10px;
   padding: 0;
@@ -7,8 +7,13 @@
   background-color: #CFCECE;
   margin-right: 3px;
   opacity: .5;
-  &:hover{
+
+  &:hover {
     cursor: pointer;
     opacity: 1;
   }
+}
+
+.carousel__point--active {
+  opacity: 1;
 }

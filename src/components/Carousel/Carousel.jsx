@@ -21,6 +21,39 @@ const Carousel = ({framesArray, framesOnSlide}) => {
   const [slides] = useState(mapCardsToSlides(framesArray, framesOnSlide));
   const gap = 5;
 
+  const slideTo = (index) => {
+    if (index < 0) {
+      setIsAnimationActive(false)
+      setActive(slides.length)
+      return
+    }
+    if (index > slides.length - 1) {
+      setIsAnimationActive(false)
+      setActive(-1)
+      return
+    }
+    setActive(index)
+  }
+
+  const handleLeftArrowClick = () => {
+    slideTo(active - 1)
+  }
+
+  const handleRightArrowClick = () => {
+    slideTo(active + 1)
+  }
+
+  useEffect(() => {
+    if (!isAnimationActive) {
+      setIsAnimationActive(true)
+      if (active >= slides.length) {
+        setActive(slides.length - 1)
+      }
+      if (active < 0) {
+        setActive(0)
+      }
+    }
+  }, [isAnimationActive])
   return (
     framesArray.length > 0 && (
       <article
@@ -83,11 +116,11 @@ const Carousel = ({framesArray, framesOnSlide}) => {
         </div>
         <section className="all-points">
           {
-            slides.map((frame, index) => <Point key={index}/>)
+            slides.map((frame, index) => <Point key={index} active={index === active}/>)
           }
         </section>
-        <ArrowButton direction={'left'}/>
-        <ArrowButton direction={'right'}/>
+        <ArrowButton direction={'left'} handleClick={handleLeftArrowClick} />
+        <ArrowButton direction={'right'} handleClick={handleRightArrowClick} />
       </article>
     )
   );
