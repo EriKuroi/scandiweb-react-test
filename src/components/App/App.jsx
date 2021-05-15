@@ -1,6 +1,7 @@
 import React from 'react';
 import './app.scss';
 import Carousel from '../Carousel/Carousel';
+import TestComponent from '../TestComponent';
 import ghibli from '../../assets/ghibli.jpg';
 import ghibli1 from '../../assets/ghibli1.jpg';
 import ghibli2 from '../../assets/ghibli2.jpg';
@@ -10,9 +11,13 @@ import ghibli5 from '../../assets/ghibli5.jpg';
 
 const App = () => {
   const framesArray = [
-    <img src={ghibli} alt="" />,
-    <article>
-      <h2>Some useful headline</h2>
+    <img src={ghibli} alt=""/>,
+    <article style={{padding: '5px'}}>
+      <h2 style={{
+        fontWeight: 'bold',
+        fontSize: '1.2rem',
+        textAlign: "center"
+      }}>Some useful headline</h2>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit
         . Proin tempor ullamcorper enim eget fermentum. Quisque dolor odio
@@ -21,8 +26,8 @@ const App = () => {
         . Integer sed magna quis elit eleifend tristique.
       </p>
     </article>,
-    <img src={ghibli1} alt="" />,
-    <img src={ghibli2} alt="" />,
+    <img src={ghibli1} alt=""/>,
+    <img src={ghibli2} alt=""/>,
 
     <h1 style={{
       fontFamily: 'sans-serif',
@@ -31,17 +36,10 @@ const App = () => {
       textAlign: "center",
       color: "orange"
     }}>ORANGE ROARING HEADLINE!</h1>,
-    <img src={ghibli3} alt="" />,
-    <img src={ghibli4} alt="" />,
-    <div style={{display: 'flex',
-      flexFlow: 'column',
-    alignItems: 'center'}}>
-      <img src={ghibli1} alt=""  style={{width: '280px'}}/>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      </p>
-    </div>,
-    <img src={ghibli5} alt="" />,
+    <img src={ghibli3} alt=""/>,
+    <img src={ghibli4} alt=""/>,
+    <TestComponent/>,
+    <img src={ghibli5} alt=""/>,
   ];
   return (
     <div className="main-wrapper">
@@ -49,14 +47,14 @@ const App = () => {
         framesArray={framesArray}
         framesOnSlide={3}
       />
-      <Carousel
-        framesArray={framesArray}
-        framesOnSlide={2}
-      />
-      <Carousel
-        framesArray={framesArray}
-        framesOnSlide={1}
-      />
+      {/*  <Carousel*/}
+      {/*    framesArray={framesArray}*/}
+      {/*    framesOnSlide={2}*/}
+      {/*  />*/}
+      {/*  <Carousel*/}
+      {/*    framesArray={framesArray}*/}
+      {/*    framesOnSlide={1}*/}
+      {/*  />*/}
     </div>
   );
 };
