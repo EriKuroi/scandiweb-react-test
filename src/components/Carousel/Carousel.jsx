@@ -188,7 +188,6 @@ const Carousel = ({framesArray, framesOnSlide}) => {
             slides.map((frame, index) => <Point key={index} active={index === active} handleClick={slideTo}
                                                 index={index}/>)
           }
-          <p>PageX: {pagex - startPoint}</p>
         </section>
         <ArrowButton direction={'left'} handleClick={handleLeftArrowClick}/>
         <ArrowButton direction={'right'} handleClick={handleRightArrowClick}/>
