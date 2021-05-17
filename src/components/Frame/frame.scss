@@ -1,42 +1,17 @@
-
-.carousel {
-  height: 210px;
-  padding: 5px 0;
-  background-color: #808080;
+.frame {
+  width: 300px;
+  min-width: 300px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   overflow: hidden;
-  position: relative;
-  margin: 10px 0;
-
-  .slider {
+  .frame__inner{
     width: 100%;
-    height: 200px;
-    position: relative;
-
-  }
-
-  .slide {
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    left: 0;
-    top: 0;
-    position: absolute;
-  }
-
-  .slide--virtual-right {
-    top: 5px;
-  }
-
-  .all-points {
-    height: 15px;
+    height: 100%;
+    background-color: #c0c0c0;
+    color: black;
     display: flex;
     justify-content: center;
-    align-items: center;
-    &:hover{
-      cursor: pointer;
-    }
-
   }
-
-
 }
