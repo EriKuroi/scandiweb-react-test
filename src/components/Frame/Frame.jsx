@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './frame.scss';
+import './prame.scss';
 const Frame = ({ frameHtml }) => {
   return (
     <div
