@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import './carousel.scss';
 import PropTypes from 'prop-types';
 import Frame from '../Frame/Frame';
@@ -42,13 +42,7 @@ const Carousel = ({framesArray, framesOnSlide}) => {
   const getTranslate = (position) => {
     let result = (position - active);
     if (mouseDown && pagex) {
-      let shift = (pagex - startPoint);
-      // if (shift > 200){
-      //   shift = 200;
-      // }
-      // if (shift < -200){
-      //   shift = -200
-      // }
+      const shift = (pagex - startPoint);
       result = result + shift / 600;
     }
     return result * 100
