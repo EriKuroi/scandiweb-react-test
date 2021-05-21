@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import './carousel.scss';
 import PropTypes from 'prop-types';
 import Frame from '../Frame/Frame';
@@ -21,24 +21,22 @@ const Carousel = ({framesArray, framesOnSlide}) => {
   const [slides] = useState(mapCardsToSlides(framesArray, framesOnSlide));
   const [mouseDown, setMouseDown] = useState(false);
   const [pagex, setPagex] = useState(null);
-  const [startPoint, setStartPoint] = useState(null)
+  const [startPoint, setStartPoint] = useState(null);
 
   const gap = 5;
   const time = 3000;
 
+  let delayedSlideMove;
+
   const slideTo = (index) => {
-    if (index < 0) {
-      setIsAnimationActive(false)
-      setActive(slides.length)
-      return
-    }
-    if (index > slides.length - 1) {
-      setIsAnimationActive(false)
-      setActive(-1)
-      return
-    }
     setActive(index)
+    if (index < 0 || index > slides.length - 1) {
+      setTimeout(() => {
+        setIsAnimationActive(false)
+      }, 450);
+    }
   }
+
   const getTranslate = (position) => {
     let result = (position - active);
     if (mouseDown && pagex) {
@@ -51,21 +49,24 @@ const Carousel = ({framesArray, framesOnSlide}) => {
     const shift = pagex - startPoint;
     const width = window.getComputedStyle(e.currentTarget).width;
     const enough = width.slice(0, -2) / 3;
-    if (shift >= enough){
-      setActive(active - 1);
+    if (shift >= enough) {
+      slideTo(active - 1);
     }
     if (shift <= -enough) {
-      setActive(active + 1);
+      slideTo(active + 1);
     }
   }
   const handleLeftArrowClick = () => {
+    clearTimeout(delayedSlideMove);
     slideTo(active - 1)
   }
 
   const handleRightArrowClick = () => {
+    clearTimeout(delayedSlideMove);
     slideTo(active + 1)
   }
   const handleMouseDown = (e) => {
+    clearTimeout(delayedSlideMove);
     setMouseDown(true);
     setStartPoint(Math.round(e.targetTouches[0].pageX));
   };
@@ -82,32 +83,36 @@ const Carousel = ({framesArray, framesOnSlide}) => {
       setPagex(position);
     }
   };
+  const handlePointClick = (slide) => {
+    // clearTimeout(delayedSlideMove);
+    slideTo(slide);
+  };
   const handlePreventDrag = (e) => {
     e.preventDefault();
   };
 
   useEffect(() => {
     if (!isAnimationActive) {
-      setIsAnimationActive(true)
       if (active >= slides.length) {
-        setActive(slides.length - 1)
+        setActive(0);
       }
       if (active < 0) {
-        setActive(0)
+        setActive(slides.length - 1);
       }
+
     }
-  }, [isAnimationActive]);
+  }, [active, isAnimationActive]);
 
   useEffect(() => {
+    if (active === 0 || active === slides.length - 1) {
+      setTimeout(() => {
+        setIsAnimationActive(true);
+      }, 450)
+    }
     if (!mouseDown) {
-      let next
-      if (active === slides.length - 1) {
-        next = 0
-      } else {
-        next = (active + 1);
-      }
-      const id = setTimeout(() => slideTo(next), time);
-      return () => clearTimeout(id);
+      console.log(active, 'setting timeout to:', active + 1);
+      delayedSlideMove = setTimeout(() => slideTo(active + 1), time);
+      return () => clearTimeout(delayedSlideMove);
     }
   }, [active, mouseDown]);
 
@@ -179,7 +184,7 @@ const Carousel = ({framesArray, framesOnSlide}) => {
         </div>
         <section className="all-points">
           {
-            slides.map((frame, index) => <Point key={index} active={index === active} handleClick={slideTo}
+            slides.map((frame, index) => <Point key={index} active={index === active} handleClick={handlePointClick}
                                                 index={index}/>)
           }
         </section>

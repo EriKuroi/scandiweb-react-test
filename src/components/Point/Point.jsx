@@ -8,7 +8,8 @@ Point.propTypes = {
 };
 
 function Point({handleClick, active, index}) {
-  const handlePointClick = () =>{
+  const handlePointClick = (event) =>{
+    event.target.blur();
     handleClick(index)
   }
   return (
