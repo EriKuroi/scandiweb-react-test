@@ -6,7 +6,7 @@ import Frame from '../Frame/Frame';
 import ArrowButton from "../ArrowButton/ArrowButton";
 import Point from "../Point/Point";
 
-const mapCardsToSlides = (frames, slideSize) => {
+const mapCardsToSlides = ( frames, slideSize ) => {
   return frames.reduce((acc, cur, index) => {
     const slideIndex = Math.floor((index) / slideSize);
     acc[slideIndex] = acc[slideIndex] ? acc[slideIndex] : [];
@@ -15,16 +15,14 @@ const mapCardsToSlides = (frames, slideSize) => {
   }, []);
 };
 
-const Carousel = ({framesArray, framesOnSlide}) => {
+const Carousel = ({framesArray, framesOnSlide, slideTime}) => {
   const [active, setActive] = useState(0);
   const [isAnimationActive, setIsAnimationActive] = useState(true);
   const [slides] = useState(mapCardsToSlides(framesArray, framesOnSlide));
   const [mouseDown, setMouseDown] = useState(false);
   const [pagex, setPagex] = useState(null);
   const [startPoint, setStartPoint] = useState(null);
-
   const gap = 5;
-  const time = 3000;
 
   let delayedSlideMove;
 
@@ -84,7 +82,6 @@ const Carousel = ({framesArray, framesOnSlide}) => {
     }
   };
   const handlePointClick = (slide) => {
-    // clearTimeout(delayedSlideMove);
     slideTo(slide);
   };
   const handlePreventDrag = (e) => {
@@ -110,8 +107,7 @@ const Carousel = ({framesArray, framesOnSlide}) => {
       }, 450)
     }
     if (!mouseDown) {
-      console.log(active, 'setting timeout to:', active + 1);
-      delayedSlideMove = setTimeout(() => slideTo(active + 1), time);
+      delayedSlideMove = setTimeout(() => slideTo(active + 1), slideTime);
       return () => clearTimeout(delayedSlideMove);
     }
   }, [active, mouseDown]);

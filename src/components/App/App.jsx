@@ -46,15 +46,18 @@ const App = () => {
       <Carousel
         framesArray={framesArray}
         framesOnSlide={3}
+        slideTime={3000}
       />
-      {/*  <Carousel*/}
-      {/*    framesArray={framesArray}*/}
-      {/*    framesOnSlide={2}*/}
-      {/*  />*/}
-      {/*  <Carousel*/}
-      {/*    framesArray={framesArray}*/}
-      {/*    framesOnSlide={1}*/}
-      {/*  />*/}
+        <Carousel
+          framesArray={framesArray}
+          framesOnSlide={2}
+          slideTime={2000}
+        />
+        <Carousel
+          framesArray={framesArray}
+          framesOnSlide={1}
+          slideTime={1000}
+        />
     </div>
   );
 };
