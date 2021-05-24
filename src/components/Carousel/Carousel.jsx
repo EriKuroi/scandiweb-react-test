@@ -1,19 +1,10 @@
-/* eslint-disable react/no-array-index-key */
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import './carousel.scss';
 import PropTypes from 'prop-types';
 import Frame from '../Frame/Frame';
 import ArrowButton from "../ArrowButton/ArrowButton";
 import Point from "../Point/Point";
-
-const mapCardsToSlides = ( frames, slideSize ) => {
-  return frames.reduce((acc, cur, index) => {
-    const slideIndex = Math.floor((index) / slideSize);
-    acc[slideIndex] = acc[slideIndex] ? acc[slideIndex] : [];
-    acc[slideIndex].push(cur);
-    return acc;
-  }, []);
-};
+import {mapCardsToSlides} from '../../functions';
 
 const Carousel = ({framesArray, framesOnSlide, slideTime}) => {
   const [active, setActive] = useState(0);
@@ -22,8 +13,9 @@ const Carousel = ({framesArray, framesOnSlide, slideTime}) => {
   const [mouseDown, setMouseDown] = useState(false);
   const [pagex, setPagex] = useState(null);
   const [startPoint, setStartPoint] = useState(null);
+  const [frameWidth, setFrameWidth] = useState(300);
+  const frameRef = useRef(null)
   const gap = 5;
-
   let delayedSlideMove;
 
   const slideTo = (index) => {
@@ -34,7 +26,6 @@ const Carousel = ({framesArray, framesOnSlide, slideTime}) => {
       }, 450);
     }
   }
-
   const getTranslate = (position) => {
     let result = (position - active);
     if (mouseDown && pagex) {
@@ -64,6 +55,7 @@ const Carousel = ({framesArray, framesOnSlide, slideTime}) => {
     slideTo(active + 1)
   }
   const handleMouseDown = (e) => {
+    setIsAnimationActive(false);
     clearTimeout(delayedSlideMove);
     setMouseDown(true);
     setStartPoint(Math.round(e.targetTouches[0].pageX));
@@ -73,6 +65,7 @@ const Carousel = ({framesArray, framesOnSlide, slideTime}) => {
     setMouseDown(false);
     setPagex(null);
     setStartPoint(null);
+    setIsAnimationActive(true);
   }
   const handleMouseMove = (e) => {
     if (mouseDown) {
@@ -87,6 +80,11 @@ const Carousel = ({framesArray, framesOnSlide, slideTime}) => {
   const handlePreventDrag = (e) => {
     e.preventDefault();
   };
+
+  useEffect(() => {
+    const parameters = frameRef.current.getBoundingClientRect();
+    setFrameWidth(parameters.width);
+  }, [frameRef])
 
   useEffect(() => {
     if (!isAnimationActive) {
@@ -118,7 +116,7 @@ const Carousel = ({framesArray, framesOnSlide, slideTime}) => {
         className="carousel"
         aria-live="polite"
         style={{
-          width: (300 * framesOnSlide) + (gap * (framesOnSlide + 1)) + 'px'
+          width: (frameWidth * framesOnSlide) + (gap * (framesOnSlide + 1)) + 'px'
         }}
       >
         <div
@@ -135,10 +133,13 @@ const Carousel = ({framesArray, framesOnSlide, slideTime}) => {
               <Frame
                 key={fi}
                 frameHtml={frame}
+                refFrame={frameRef}
               />
             )}
           </div>
           {
+            /* I know that it is not safe to use index as key in most cases,
+            but as long as this carousel uses fixed elements I did not forced unique keys. */
             slides.map((frames, si) =>
               <div
                 key={si}
@@ -195,5 +196,10 @@ Carousel.propTypes =
   {
     framesArray: PropTypes.arrayOf(PropTypes.element).isRequired,
     framesOnSlide: PropTypes.number.isRequired,
+    slideTime: PropTypes.number,
   };
+
+Carousel.defaultProps = {
+  slideTime: 3000,
+}
 export default Carousel;
