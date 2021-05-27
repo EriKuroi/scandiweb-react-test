@@ -2,7 +2,7 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/056063d2-823c-48eb-a2c9-d596a0f554cc/deploy-status)](https://app.netlify.com/sites/scandiweb-react-test/deploys)
 
-Made with React.js and webpack, no CRA, no added libraries except SCSS and PropTypes. The project is hosted on Netlify, just follow the [link](https://scandiweb-react-test.netlify.app/)
+Made with React.js and webpack + babel, no CRA, no added libraries except SCSS and PropTypes. The project is hosted on Netlify, just follow the [link](https://scandiweb-react-test.netlify.app/)
 
 ###This carousel component features:
 * Works for mobile and desktop devices
