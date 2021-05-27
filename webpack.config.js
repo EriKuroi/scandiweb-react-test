@@ -15,6 +15,14 @@ module.exports = {
       '.github.io',
     ],
   },
+  resolve: {
+    alias: {
+      components: path.resolve(__dirname, 'src/components/'),
+      utils: path.resolve(__dirname, 'src/utils/'),
+      mocks: path.resolve(__dirname, 'src/mocks/')
+    },
+    extensions: ['.js', '.jsx'],
+  },
   module: {
     rules: [
       {

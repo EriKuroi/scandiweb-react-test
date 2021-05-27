@@ -1,22 +1,22 @@
 import React, {useEffect, useState, useRef} from 'react';
-import './carousel.scss';
 import PropTypes from 'prop-types';
-import Frame from '../Frame/Frame';
-import ArrowButton from "../ArrowButton/ArrowButton";
-import Point from "../Point/Point";
-import {mapCardsToSlides} from '../../functions';
+import ArrowButton from 'components/ArrowButton';
+import Frame from 'components/Frame';
+import Point from 'components/Point';
+import {mapCardsToSlides} from 'utils/cards';
+import './carousel.scss';
+
+const gap = 5;
 
 const Carousel = ({framesArray, framesOnSlide, slideTime}) => {
   const [active, setActive] = useState(0);
   const [isAnimationActive, setIsAnimationActive] = useState(true);
   const [slides] = useState(mapCardsToSlides(framesArray, framesOnSlide));
-  const [mouseDown, setMouseDown] = useState(false);
+  const [isMouseDown, setIsMouseDown] = useState(false);
   const [pagex, setPagex] = useState(null);
   const [startPoint, setStartPoint] = useState(null);
   const [frameWidth, setFrameWidth] = useState(300);
   const frameRef = useRef(null)
-  const gap = 5;
-  let delayedSlideMove;
 
   const slideTo = (index) => {
     setActive(index)
@@ -28,7 +28,7 @@ const Carousel = ({framesArray, framesOnSlide, slideTime}) => {
   }
   const getTranslate = (position) => {
     let result = (position - active);
-    if (mouseDown && pagex) {
+    if (isMouseDown && pagex) {
       const shift = (pagex - startPoint);
       result = result + shift / 600;
     }
@@ -36,39 +36,35 @@ const Carousel = ({framesArray, framesOnSlide, slideTime}) => {
   };
   const switchActiveSlide = (e) => {
     const shift = pagex - startPoint;
-    const width = window.getComputedStyle(e.currentTarget).width;
-    const enough = width.slice(0, -2) / 3;
-    if (shift >= enough) {
+    const width = e.currentTarget.getBoundingClientRect().width;
+    const partEnoughToTurn = width / 3;
+    if (shift >= partEnoughToTurn) {
       slideTo(active - 1);
-    }
-    if (shift <= -enough) {
+    } else if (shift <= -partEnoughToTurn) {
       slideTo(active + 1);
     }
   }
   const handleLeftArrowClick = () => {
-    clearTimeout(delayedSlideMove);
     slideTo(active - 1)
   }
 
   const handleRightArrowClick = () => {
-    clearTimeout(delayedSlideMove);
     slideTo(active + 1)
   }
   const handleMouseDown = (e) => {
     setIsAnimationActive(false);
-    clearTimeout(delayedSlideMove);
-    setMouseDown(true);
+    setIsMouseDown(true);
     setStartPoint(Math.round(e.targetTouches[0].pageX));
   };
   const handleMouseUp = (e) => {
     switchActiveSlide(e);
-    setMouseDown(false);
+    setIsMouseDown(false);
     setPagex(null);
     setStartPoint(null);
     setIsAnimationActive(true);
   }
   const handleMouseMove = (e) => {
-    if (mouseDown) {
+    if (isMouseDown) {
       let position
       e.type === 'touchmove' ? position = Math.round(e.targetTouches[0].pageX) : position = e.pageX;
       setPagex(position);
@@ -77,7 +73,7 @@ const Carousel = ({framesArray, framesOnSlide, slideTime}) => {
   const handlePointClick = (slide) => {
     slideTo(slide);
   };
-  const handlePreventDrag = (e) => {
+  const handleDragStart = (e) => {
     e.preventDefault();
   };
 
@@ -104,11 +100,11 @@ const Carousel = ({framesArray, framesOnSlide, slideTime}) => {
         setIsAnimationActive(true);
       }, 450)
     }
-    if (!mouseDown) {
-      delayedSlideMove = setTimeout(() => slideTo(active + 1), slideTime);
-      return () => clearTimeout(delayedSlideMove);
+    if (!isMouseDown) {
+      const animationTimeout = setTimeout(() => slideTo(active + 1), slideTime);
+      return () => clearTimeout(animationTimeout);
     }
-  }, [active, mouseDown]);
+  }, [active, isMouseDown]);
 
   return (
     framesArray.length > 0 && (
@@ -148,7 +144,7 @@ const Carousel = ({framesArray, framesOnSlide, slideTime}) => {
                   transform: `translate3d(${getTranslate(si)}%, 0px, 0px)`,
                   transition: isAnimationActive ? "all 450ms ease-out 0s" : null
                 }}
-                onDragStart={handlePreventDrag}
+                onDragStart={handleDragStart}
                 onTouchStart={handleMouseDown}
                 onTouchEnd={handleMouseUp}
                 onTouchMove={handleMouseMove}

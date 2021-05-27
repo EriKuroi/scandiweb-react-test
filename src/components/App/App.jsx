@@ -1,7 +1,7 @@
 import React from 'react';
+import Carousel from 'components/Carousel';
+import framesArray from 'mocks/mockArray';
 import './app.scss';
-import Carousel from '../Carousel/Carousel';
-import { framesArray } from '../../functions';
 
 const App = () => {
 

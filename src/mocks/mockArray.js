@@ -1,22 +1,13 @@
-import TestComponent from './components/TestComponent';
-import ghibli from './assets/ghibli.jpg';
-import ghibli1 from './assets/ghibli1.jpg';
-import ghibli2 from './assets/ghibli2.jpg';
-import ghibli3 from './assets/ghibli3.jpg';
-import ghibli4 from './assets/ghibli4.jpg';
-import ghibli5 from './assets/ghibli5.jpg';
 import React from "react";
+import TestComponent from 'components/TestComponent';
+import ghibli from '../assets/ghibli.jpg';
+import ghibli1 from '../assets/ghibli1.jpg';
+import ghibli2 from '../assets/ghibli2.jpg';
+import ghibli3 from '../assets/ghibli3.jpg';
+import ghibli4 from '../assets/ghibli4.jpg';
+import ghibli5 from '../assets/ghibli5.jpg';
 
-export const mapCardsToSlides = (frames, slideSize) => {
-  return frames.reduce((acc, cur, index) => {
-    const slideIndex = Math.floor((index) / slideSize);
-    acc[slideIndex] = acc[slideIndex] ? acc[slideIndex] : [];
-    acc[slideIndex].push(cur);
-    return acc;
-  }, []);
-};
-
-export const framesArray = [
+const framesArray = [
   <img src={ghibli} alt=""/>,
   <article style={{padding: '5px'}}>
     <h2 style={{
@@ -47,3 +38,4 @@ export const framesArray = [
   <TestComponent/>,
   <img src={ghibli5} alt=""/>,
 ];
+ export default framesArray;
